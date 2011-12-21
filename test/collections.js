@@ -30,7 +30,7 @@ $(document).ready(function() {
     _.each(null, function(){ ++answers; });
     equals(answers, 0, 'handles a null properly');
   });
-
+/*
   test('collections: map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     equals(doubled.join(', '), '2, 4, 6', 'doubled numbers');
@@ -247,5 +247,6 @@ $(document).ready(function() {
   test('collections: size', function() {
     equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
   });
+*/
 
 });

@@ -86,7 +86,7 @@
 
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
-  _.map = function(obj, iterator, context) {
+  /*_.map = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
@@ -95,11 +95,11 @@
     });
     if (obj.length === +obj.length) results.length = obj.length;
     return results;
-  };
+  };*/
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+  /*_.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduce && obj.reduce === nativeReduce) {
@@ -116,11 +116,11 @@
     });
     if (!initial) throw new TypeError('Reduce of empty array with no initial value');
     return memo;
-  };
+  };*/
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-  _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+  /*_.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
@@ -130,10 +130,10 @@
     var reversed = _.toArray(obj).reverse();
     if (context && !initial) iterator = _.bind(iterator, context);
     return initial ? _.reduce(reversed, iterator, memo, context) : _.reduce(reversed, iterator);
-  };
+  };*/
 
   // Return the first value which passes a truth test. Aliased as `detect`.
-  _.find = _.detect = function(obj, iterator, context) {
+  /*_.find = _.detect = function(obj, iterator, context) {
     var result;
     any(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) {
@@ -142,12 +142,12 @@
       }
     });
     return result;
-  };
+  };*/
 
   // Return all the elements that pass a truth test.
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
-  _.filter = _.select = function(obj, iterator, context) {
+  /*_.filter = _.select = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
@@ -155,22 +155,22 @@
       if (iterator.call(context, value, index, list)) results[results.length] = value;
     });
     return results;
-  };
+  };*/
 
   // Return all the elements for which a truth test fails.
-  _.reject = function(obj, iterator, context) {
+  /*_.reject = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
     each(obj, function(value, index, list) {
       if (!iterator.call(context, value, index, list)) results[results.length] = value;
     });
     return results;
-  };
+  };*/
 
   // Determine whether all of the elements match a truth test.
   // Delegates to **ECMAScript 5**'s native `every` if available.
   // Aliased as `all`.
-  _.every = _.all = function(obj, iterator, context) {
+  /*_.every = _.all = function(obj, iterator, context) {
     var result = true;
     if (obj == null) return result;
     if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
@@ -178,12 +178,12 @@
       if (!(result = result && iterator.call(context, value, index, list))) return breaker;
     });
     return result;
-  };
+  };*/
 
   // Determine if at least one element in the object matches a truth test.
   // Delegates to **ECMAScript 5**'s native `some` if available.
   // Aliased as `any`.
-  var any = _.some = _.any = function(obj, iterator, context) {
+  /*var any = _.some = _.any = function(obj, iterator, context) {
     iterator || (iterator = _.identity);
     var result = false;
     if (obj == null) return result;
@@ -192,7 +192,7 @@
       if (result || (result = iterator.call(context, value, index, list))) return breaker;
     });
     return !!result;
-  };
+  };*/
 
   // Determine if a given value is included in the array or object using `===`.
   // Aliased as `contains`.
@@ -207,20 +207,20 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = function(obj, method) {
+  /*_.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
     return _.map(obj, function(value) {
       return (method.call ? method || value : value[method]).apply(value, args);
     });
-  };
+  };*/
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
+  /*_.pluck = function(obj, key) {
     return _.map(obj, function(value){ return value[key]; });
-  };
+  };*/
 
   // Return the maximum element or (element-based computation).
-  _.max = function(obj, iterator, context) {
+  /*_.max = function(obj, iterator, context) {
     if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);
     if (!iterator && _.isEmpty(obj)) return -Infinity;
     var result = {computed : -Infinity};
@@ -229,10 +229,10 @@
       computed >= result.computed && (result = {value : value, computed : computed});
     });
     return result.value;
-  };
+  };*/
 
   // Return the minimum element (or element-based computation).
-  _.min = function(obj, iterator, context) {
+  /*_.min = function(obj, iterator, context) {
     if (!iterator && _.isArray(obj)) return Math.min.apply(Math, obj);
     if (!iterator && _.isEmpty(obj)) return Infinity;
     var result = {computed : Infinity};
@@ -241,10 +241,10 @@
       computed < result.computed && (result = {value : value, computed : computed});
     });
     return result.value;
-  };
+  };*/
 
   // Shuffle an array.
-  _.shuffle = function(obj) {
+  /*_.shuffle = function(obj) {
     var shuffled = [], rand;
     each(obj, function(value, index, list) {
       if (index == 0) {
@@ -256,10 +256,10 @@
       }
     });
     return shuffled;
-  };
+  };*/
 
   // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
+  /*_.sortBy = function(obj, iterator, context) {
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -269,11 +269,11 @@
       var a = left.criteria, b = right.criteria;
       return a < b ? -1 : a > b ? 1 : 0;
     }), 'value');
-  };
+  };*/
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = function(obj, val) {
+  /*_.groupBy = function(obj, val) {
     var result = {};
     var iterator = _.isFunction(val) ? val : function(obj) { return obj[val]; };
     each(obj, function(value, index) {
@@ -281,11 +281,11 @@
       (result[key] || (result[key] = [])).push(value);
     });
     return result;
-  };
+  };*/
 
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator) {
+  /*_.sortedIndex = function(array, obj, iterator) {
     iterator || (iterator = _.identity);
     var low = 0, high = array.length;
     while (low < high) {
@@ -293,26 +293,26 @@
       iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
     }
     return low;
-  };
+  };*/
 
   // Safely convert anything iterable into a real, live array.
-  _.toArray = function(iterable) {
+  /*_.toArray = function(iterable) {
     if (!iterable)                return [];
     if (iterable.toArray)         return iterable.toArray();
     if (_.isArray(iterable))      return slice.call(iterable);
     if (_.isArguments(iterable))  return slice.call(iterable);
     return _.values(iterable);
-  };
+  };*/
 
   // Return the number of elements in an object.
-  _.size = function(obj) {
+  /*_.size = function(obj) {
     return _.toArray(obj).length;
-  };
+  };*/
 
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
   // [the Python documentation](http://docs.python.org/library/functions.html#range).
-  _.range = function(start, stop, step) {
+  /*_.range = function(start, stop, step) {
     if (arguments.length <= 1) {
       stop = start || 0;
       start = 0;
@@ -329,19 +329,19 @@
     }
 
     return range;
-  };
+  };*/
 
   // Function (ahem) Functions
   // ------------------
 
   // Reusable constructor function for prototype setting.
-  var ctor = function(){};
+  /*var ctor = function(){};*/
 
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Binding with arguments is also known as `curry`.
   // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
   // We check for `func.bind` first, to fail fast when `func` is undefined.
-  _.bind = function bind(func, context) {
+  /*_.bind = function bind(func, context) {
     var bound, args;
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError;
@@ -354,75 +354,75 @@
       if (Object(result) === result) return result;
       return self;
     };
-  };
+  };*/
 
   // Object Functions
   // ----------------
 
   // Retrieve the values of an object's properties.
-  _.values = function(obj) {
+  /*_.values = function(obj) {
     return _.map(obj, _.identity);
-  };
+  };*/
 
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
-  _.functions = _.methods = function(obj) {
+  /*_.functions = _.methods = function(obj) {
     var names = [];
     for (var key in obj) {
       if (_.isFunction(obj[key])) names.push(key);
     }
     return names.sort();
-  };
+  };*/
 
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
-  _.isEmpty = function(obj) {
+  /*_.isEmpty = function(obj) {
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
     for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
     return true;
-  };
+  };*/
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function(obj) {
+  /*_.isArray = nativeIsArray || function(obj) {
     return toString.call(obj) == '[object Array]';
-  };
+  };*/
 
   // Is a given variable an arguments object?
-  _.isArguments = function(obj) {
+  /*_.isArguments = function(obj) {
     return toString.call(obj) == '[object Arguments]';
   };
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
       return !!(obj && hasOwnProperty.call(obj, 'callee'));
     };
-  }
+  }*/
 
   // Is a given value a function?
-  _.isFunction = function(obj) {
+  /*_.isFunction = function(obj) {
     return toString.call(obj) == '[object Function]';
-  };
+  };*/
 
   // Is a given value a string?
-  _.isString = function(obj) {
+  /*_.isString = function(obj) {
     return toString.call(obj) == '[object String]';
-  };
+  };*/
 
   // Utility Functions
   // -----------------
 
   // Keep the identity function around for default iterators.
-  _.identity = function(value) {
+  /*_.identity = function(value) {
     return value;
-  };
+  };*/
 
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
-  _.mixin = function(obj) {
+  /*_.mixin = function(obj) {
     each(_.functions(obj), function(name){
       addToWrapper(name, _[name] = obj[name]);
     });
-  };
+  };*/
 
   // The OOP Wrapper
   // ---------------
@@ -430,26 +430,26 @@
   // If Underscore is called as a function, it returns a wrapped object that
   // can be used OO-style. This wrapper holds altered versions of all the
   // underscore functions. Wrapped objects may be chained.
-  var wrapper = function(obj) { this._wrapped = obj; };
+  /*var wrapper = function(obj) { this._wrapped = obj; };*/
 
   // Expose `wrapper.prototype` as `_.prototype`
-  _.prototype = wrapper.prototype;
+  /*_.prototype = wrapper.prototype;*/
 
   // Helper function to continue chaining intermediate results.
-  var result = function(obj, chain) {
+  /*var result = function(obj, chain) {
     return chain ? _(obj).chain() : obj;
-  };
+  };*/
 
   // A method to easily add functions to the OOP wrapper.
-  var addToWrapper = function(name, func) {
+  /*var addToWrapper = function(name, func) {
     wrapper.prototype[name] = function() {
       var args = slice.call(arguments);
       unshift.call(args, this._wrapped);
       return result(func.apply(_, args), this._chain);
     };
-  };
+  };*/
 
   // Add all of the Underscore functions to the wrapper object.
-  _.mixin(_);
+  /*_.mixin(_);*/
 
 }).call(this);
