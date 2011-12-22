@@ -76,16 +76,16 @@
         obj = (typeof(obj) == 'string') ? obj.split("") : obj;
 
         // Works with objects that provide `length` property, arrays.
-        console.log(obj + ' ' + obj.length + ' ' + +obj.length);
         if (obj.length === +obj.length) {
-            console.log('thinking I am an array');
             // Traverse the array.
             for (var i = 0, l = obj.length; i < l; i++) {
                 // Iterator is the fce we will execute for each item, while passed in `context` overrides `this`,
                 // which is often `window`.
                 // Other parameters are each item the index and the `obj` itself.
                 // If wanting to break from a loop `return` can be used.
-                if (iterator.call(context, obj[i], i, obj) === breaker) return;
+                // The reason why we check for presence of index in the `obj` is because we can have a property
+                // `length` on an object. This will return.
+                if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
             }
         } else {
             // You can also go through each element of an associative array.

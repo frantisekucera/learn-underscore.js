@@ -31,10 +31,12 @@ $(document).ready(function() {
         }, that);
 
         // What if someone has a property `length` on an object?
-        var boat = {'length': 50};
-        _.each(boat, function(key, i) {
-            equals(key, 'length', 'having a property length on an object needs to give me the object keys');
+        var answer = 0,
+            boat = {'length': 50};
+        _.each(boat, function(num, i) {
+            answer += num;
         });
+        equals(answer, 0, 'having a property length on an object needs to return withouth exec');
 
         var answers = [];
         _.each([1, 2, 3], function(num) {
