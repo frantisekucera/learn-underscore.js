@@ -95,27 +95,42 @@ $(document).ready(function() {
         });
         equals(answers, 0, 'handles a null properly');
     });
+
+    test('collections: map', function() {
+        // Double the value passed in.
+        var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
+        equals(doubled.join(', '), '2, 4, 6', 'doubled numbers');
+
+        // Do not define a return in an iterator function, get back 'undefined'.
+        var doubled = _.map([1, 2, 3], function(){ ; });
+        equals(doubled[1], undefined, 'no iterator function return');
+
+        // Override the 'this' context.
+        var tripled = _.map([1, 2, 3], function(num){ return num * this.multiplier; }, {multiplier : 3});
+        equals(tripled.join(', '), '3, 6, 9', 'tripled numbers with context');
+
+        //var doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
+        //equals(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
+
+        // Iterate over DOM objects (more a test of each).
+        var ids = _.map($('div.underscore-test').children(), function(element) {
+            equals(typeof(element), typeof($('<a/>')), 'can use collection methods on NodeLists');
+            return element.id;
+        });
+        ok(_.include(ids, 'qunit-banner'), 'can use collection methods on NodeLists');
+
+        //var ifnull = _.map(null, function(){});
+        //ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+
+        // Use sparse arrays.
+        var arr = ['terminator', 'predator', 'eliminator'];
+        arr[9] = 'alien';
+        equals(arr.length, 10, "a sparse array");
+        var result = _.map(arr, function(v) { return v; });
+        equals(result.length, 10, "can preserve a sparse array's length");
+    });
+
     /*
-     test('collections: map', function() {
-     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
-     equals(doubled.join(', '), '2, 4, 6', 'doubled numbers');
-
-     var tripled = _.map([1, 2, 3], function(num){ return num * this.multiplier; }, {multiplier : 3});
-     equals(tripled.join(', '), '3, 6, 9', 'tripled numbers with context');
-
-     var doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
-     equals(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
-
-     var ids = _.map($('div.underscore-test').children(), function(n){ return n.id; });
-     ok(_.include(ids, 'qunit-header'), 'can use collection methods on NodeLists');
-
-     var ifnull = _.map(null, function(){});
-     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
-
-     var length = _.map(Array(2), function(v) { return v; }).length;
-     equals(length, 2, "can preserve a sparse array's length");
-     });
-
      test('collections: reduce', function() {
      var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
      equals(sum, 6, 'can sum up an array');

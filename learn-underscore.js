@@ -103,16 +103,28 @@
 
     // Return the results of applying the iterator to each element.
     // Delegates to **ECMAScript 5**'s native `map` if available.
-    /*_.map = function(obj, iterator, context) {
-     var results = [];
-     if (obj == null) return results;
-     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-     each(obj, function(value, index, list) {
-     results[results.length] = iterator.call(context, value, index, list);
-     });
-     if (obj.length === +obj.length) results.length = obj.length;
-     return results;
-     };*/
+    _.map = function(obj, iterator, context) {
+        var results = [];
+        // Much like with each, return empty results array when `obj` is undefined.
+        if (obj == null) return results;
+
+        // If object has native map function defined, use it.
+        if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
+        
+        // Launch a forEach.
+        each(obj, function(value, index, list) {
+            // Save the result of the call in the array.
+            // If no value is returned, we will get 'undefined'.
+            results[results.length] = iterator.call(context, value, index, list);
+        });
+
+        // For objects that have a length property provided.
+        // This seems to have been provided for dealing with sparse arrays, but does not
+        // seem to be needed?
+        if (obj.length === +obj.length) results.length = obj.length;
+        
+        return results;
+    };
 
     // **Reduce** builds up a single result from a list of values, aka `inject`,
     // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
