@@ -38,20 +38,29 @@ $(document).ready(function() {
         });
         equals(answer, 0, 'having a property length on an object needs to return withouth exec');
 
+        // Overriding 'this' by providing an object.
         var answers = [];
         _.each([1, 2, 3], function(num) {
                     answers.push(num * this.multiplier);
-                }, {multiplier : 5});
+                }, {multiplier: 5});
         equals(answers.join(', '), '5, 10, 15', 'context object property accessed');
 
+        // The function is aliased.
         answers = [];
         _.forEach([1, 2, 3], function(num) {
             answers.push(num);
         });
         equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
 
+        // Do not try to get values from a prototype.
         answers = [];
+        // Every object is based on a prototype, which gives it a set of inherent properties.
+        // To create a new object based on a different than Object prototype, we use the new
+        // keyword.
+        // {} is the same as new Object().
         var obj = {one : 1, two : 2, three : 3};
+        // When trying to get a value of a property, JS first traverses the properties the object
+        // itself has. Failing that, it looks to the prototype (and prototype of the prototype...).
         obj.constructor.prototype.four = 4;
         _.each(obj, function(value, key) {
             answers.push(key);
@@ -59,12 +68,27 @@ $(document).ready(function() {
         equals(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
         delete obj.constructor.prototype.four;
 
+        // The same case as before, but this time we override a property from a prototype.
+        answers = [];
+        function Objektik() {
+            this.one = "X";
+        }
+        var obj = new Objektik();
+        obj.one = 1;
+        obj.two = 2;
+        obj.three = 3;
+        _.each(obj, function(value, key) {
+            answers.push(value);
+        });
+        equals(answers.join(", "), '1, 2, 3', 'iterating over objects works, and ignores the object prototype.');
+
+        // The third value passed is the original object iterated on.
         answer = null;
         _.each([1, 2, 3], function(num, index, arr) {
-            if (_.include(arr, num)) answer = true;
+            equals(arr[index], num, 'can reference the original collection from inside the iterator');
         });
-        ok(answer, 'can reference the original collection from inside the iterator');
 
+        // Returns on undefined object.
         answers = 0;
         _.each(null, function() {
             ++answers;
