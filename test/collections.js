@@ -130,42 +130,43 @@ $(document).ready(function() {
         equals(result.length, 10, "can preserve a sparse array's length");
     });
 
+    test('collections: reduce', function() {
+        // Sum all values in an array by keeping a count in memo/sum.
+        var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
+        equals(sum, 6, 'can sum up an array');
+
+        //var context = {multiplier : 3};
+        //sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num * this.multiplier; }, 0, context);
+        //equals(sum, 18, 'can reduce with a context object');
+
+        // Alias the function and pass in the initial value for memo.
+        sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
+        equals(sum, 6, 'aliased as "inject"');
+
+        // Get an error if we do not have an initial value for memo and we cannot get it from the
+        // first element in the object.
+        var fail = false;
+        try {
+            _.reduce([], function(){ ; });
+        } catch (ex) {
+            fail = true;
+        }
+        ok(fail, "throw an error if no init value is set and cannot be got from first el in obj")
+
+        //sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
+        //equals(sum, 6, 'OO-style reduce');
+
+        ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
+        equals(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
+        raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+
+        var sparseArray = [];
+        sparseArray[0] = 20;
+        sparseArray[2] = -5;
+        equals(_.reduce(sparseArray, function(a, b){ return a - b; }), 25, 'initially-sparse arrays with no memo');
+    });
+
     /*
-     test('collections: reduce', function() {
-     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-     equals(sum, 6, 'can sum up an array');
-
-     var context = {multiplier : 3};
-     sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num * this.multiplier; }, 0, context);
-     equals(sum, 18, 'can reduce with a context object');
-
-     sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-     equals(sum, 6, 'aliased as "inject"');
-
-     sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
-     equals(sum, 6, 'OO-style reduce');
-
-     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
-     equals(sum, 6, 'default initial value');
-
-     var ifnull;
-     try {
-     _.reduce(null, function(){});
-     } catch (ex) {
-     ifnull = ex;
-     }
-     ok(ifnull instanceof TypeError, 'handles a null (without inital value) properly');
-
-     ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
-     equals(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-     raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
-
-     var sparseArray = [];
-     sparseArray[0] = 20;
-     sparseArray[2] = -5;
-     equals(_.reduce(sparseArray, function(a, b){ return a - b; }), 25, 'initially-sparse arrays with no memo');
-     });
-
      test('collections: reduceRight', function() {
      var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
      equals(list, 'bazbarfoo', 'can perform right folds');

@@ -115,7 +115,9 @@
         each(obj, function(value, index, list) {
             // Save the result of the call in the array.
             // If no value is returned, we will get 'undefined'.
-            results[results.length] = iterator.call(context, value, index, list);
+            // Arrays.push() is slightly faster that results[results.length], just not
+            // supported in IE6.
+            results.push(iterator.call(context, value, index, list));
         });
 
         // For objects that have a length property provided.
@@ -128,24 +130,35 @@
 
     // **Reduce** builds up a single result from a list of values, aka `inject`,
     // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-    /*_.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-     var initial = arguments.length > 2;
-     if (obj == null) obj = [];
-     if (nativeReduce && obj.reduce === nativeReduce) {
-     if (context) iterator = _.bind(iterator, context);
-     return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
-     }
-     each(obj, function(value, index, list) {
-     if (!initial) {
-     memo = value;
-     initial = true;
-     } else {
-     memo = iterator.call(context, memo, value, index, list);
-     }
-     });
-     if (!initial) throw new TypeError('Reduce of empty array with no initial value');
-     return memo;
-     };*/
+    _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+        // arguments is an Object that holds the args passed and their length, allows
+        // us to pass a variable number of args etc.
+        // Here we say we have an initial value for memo.
+        var initial = arguments.length > 2;
+        
+        if (obj == null) obj = [];
+        
+        // Use native function.
+        if (nativeReduce && obj.reduce === nativeReduce) {
+            if (context) iterator = _.bind(iterator, context);
+            return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
+        }
+        
+        // Traverse the object.
+        each(obj, function(value, index, list) {
+            if (!initial) {
+                // When initial memo is not set, init using the first value.
+                memo = value;
+                initial = true;
+            } else {
+                memo = iterator.call(context, memo, value, index, list);
+            }
+        });
+        
+        if (!initial) throw new TypeError('Reduce of empty array with no initial value');
+        
+        return memo;
+    };
 
     // The right-associative version of reduce, also known as `foldr`.
     // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
