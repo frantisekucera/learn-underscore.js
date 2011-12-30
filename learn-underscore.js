@@ -204,15 +204,22 @@
     // Return all the elements that pass a truth test.
     // Delegates to **ECMAScript 5**'s native `filter` if available.
     // Aliased as `select`.
-    /*_.filter = _.select = function(obj, iterator, context) {
-     var results = [];
-     if (obj == null) return results;
-     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
-     each(obj, function(value, index, list) {
-     if (iterator.call(context, value, index, list)) results[results.length] = value;
-     });
-     return results;
-     };*/
+    // Like find, but returning all, not just first that passes.
+    _.filter = _.select = function(obj, iterator, context) {
+        var results = [];
+        
+        if (obj == null) return results;
+        
+        if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
+        
+        // We could also use any and return false every thime while pushing the value onto the
+        // results set.
+        each(obj, function(value, index, list) {
+            if (iterator.call(context, value, index, list)) results.push(value);
+        });
+
+        return results;
+    };
 
     // Return all the elements for which a truth test fails.
     /*_.reject = function(obj, iterator, context) {

@@ -201,15 +201,15 @@ $(document).ready(function() {
         equals(result, 2, 'found the first "2" and broke the loop');
     });
 
+    test('collections: select', function() {
+        var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+        equals(evens.join(', '), '2, 4, 6', 'selected each even number');
+
+        evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+        equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+    });
+
     /*
-     test('collections: select', function() {
-     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-     equals(evens.join(', '), '2, 4, 6', 'selected each even number');
-
-     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-     equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
-     });
-
      test('collections: reject', function() {
      var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
      equals(odds.join(', '), '1, 3, 5', 'rejected each even number');
