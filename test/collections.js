@@ -196,8 +196,8 @@ $(document).ready(function() {
         Array.prototype.some = nativeSome;
     });
 
-    test('collections: detect', function() {
-        var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
+    test('collections: find', function() {
+        var result = _.find([1, 2, 3], function(num){ return num * 2 == 4; });
         equals(result, 2, 'found the first "2" and broke the loop');
     });
 

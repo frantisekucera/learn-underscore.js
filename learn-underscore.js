@@ -192,6 +192,7 @@
         
         any(obj, function(value, index, list) {
             if (iterator.call(context, value, index, list)) {
+                // Instead of returning boolean like in _.any, return the actual value.
                 result = value;
                 return true;
             }
