@@ -160,31 +160,45 @@
         return memo;
     };
 
-    // The right-associative version of reduce, also known as `foldr`.
-    // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-    /*_.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-     var initial = arguments.length > 2;
-     if (obj == null) obj = [];
-     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
-     if (context) iterator = _.bind(iterator, context);
-     return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
-     }
-     var reversed = _.toArray(obj).reverse();
-     if (context && !initial) iterator = _.bind(iterator, context);
-     return initial ? _.reduce(reversed, iterator, memo, context) : _.reduce(reversed, iterator);
-     };*/
+    // Determine if at least one element in the object matches a truth test.
+    // Delegates to **ECMAScript 5**'s native `some` if available.
+    // Aliased as `any`.
+    var any = _.some = _.any = function(obj, iterator, context) {
+        // If iterator is undefined, set it to the fce _.identity.
+        // _.identity returns the same value that is used as the argument.
+        iterator || (iterator = _.identity);
+        var result = false;
+        
+        // Early bath.
+        if (obj == null) return result;
+        
+        // Use native fce.
+        if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
+        
+        // Result is set to false and we iterate through the object until we get true back.
+        each(obj, function(value, index, list) {
+            if (result || (result = iterator.call(context, value, index, list))) return breaker;
+        });
+
+        // Convert to boolean without inverting the value.
+        // For example the obj might have a string and iterator is simply looking for a value,
+        // then we would get the string back as a result and need to convert it to boolean.
+        return !!result;
+    };
 
     // Return the first value which passes a truth test. Aliased as `detect`.
-    /*_.find = _.detect = function(obj, iterator, context) {
-     var result;
-     any(obj, function(value, index, list) {
-     if (iterator.call(context, value, index, list)) {
-     result = value;
-     return true;
-     }
-     });
-     return result;
-     };*/
+    _.find = _.detect = function(obj, iterator, context) {
+        var result;
+        
+        any(obj, function(value, index, list) {
+            if (iterator.call(context, value, index, list)) {
+                result = value;
+                return true;
+            }
+        });
+
+        return result;
+    };
 
     // Return all the elements that pass a truth test.
     // Delegates to **ECMAScript 5**'s native `filter` if available.
@@ -220,20 +234,6 @@
      if (!(result = result && iterator.call(context, value, index, list))) return breaker;
      });
      return result;
-     };*/
-
-    // Determine if at least one element in the object matches a truth test.
-    // Delegates to **ECMAScript 5**'s native `some` if available.
-    // Aliased as `any`.
-    /*var any = _.some = _.any = function(obj, iterator, context) {
-     iterator || (iterator = _.identity);
-     var result = false;
-     if (obj == null) return result;
-     if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
-     each(obj, function(value, index, list) {
-     if (result || (result = iterator.call(context, value, index, list))) return breaker;
-     });
-     return !!result;
      };*/
 
     // Determine if a given value is included in the array or object using `===`.
@@ -454,9 +454,9 @@
     // -----------------
 
     // Keep the identity function around for default iterators.
-    /*_.identity = function(value) {
-     return value;
-     };*/
+    _.identity = function(value) {
+        return value;
+    };
 
     // Add your own custom functions to the Underscore object, ensuring that
     // they're correctly added to the OOP wrapper as well.

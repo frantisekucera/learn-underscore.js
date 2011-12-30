@@ -166,41 +166,42 @@ $(document).ready(function() {
         equals(_.reduce(sparseArray, function(a, b){ return a - b; }), 25, 'initially-sparse arrays with no memo');
     });
 
+    test('collections: any', function() {
+        var nativeSome = Array.prototype.some;
+        Array.prototype.some = null;
+        
+        // We have nothing, so we get false.
+        ok(!_.any([]), 'the empty set');
+        
+        // We get false back as there are no true values.
+        ok(!_.any([false, false, false]), 'all false values');
+        
+        // We get true back as one value is set to true.
+        ok(_.any([false, false, true]), 'one true value');
+        
+        // We are looking for any result, a string, getting bool back.
+        ok(_.any([null, 0, 'a string here mate', false]), 'a string');
+        
+        // Empty string evaluates as false.
+        ok(!_.any([null, 0, '', false]), 'falsy values');
+        
+        // Look for even numbers and find none.
+        ok(!_.any([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
+        
+        // Find one even number. 
+        ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
+        
+        ok(_.some([false, false, true]), 'aliased as "some"');
+        
+        Array.prototype.some = nativeSome;
+    });
+
+    test('collections: detect', function() {
+        var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
+        equals(result, 2, 'found the first "2" and broke the loop');
+    });
+
     /*
-     test('collections: reduceRight', function() {
-     var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
-     equals(list, 'bazbarfoo', 'can perform right folds');
-
-     var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
-     equals(list, 'bazbarfoo', 'aliased as "foldr"');
-
-     var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
-     equals(list, 'bazbarfoo', 'default initial value');
-
-     var ifnull;
-     try {
-     _.reduceRight(null, function(){});
-     } catch (ex) {
-     ifnull = ex;
-     }
-     ok(ifnull instanceof TypeError, 'handles a null (without inital value) properly');
-
-     ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
-
-     equals(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-     raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
-
-     var sparseArray = [];
-     sparseArray[0] = 20;
-     sparseArray[2] = -5;
-     equals(_.reduceRight(sparseArray, function(a, b){ return a - b; }), -25, 'initially-sparse arrays with no memo');
-     });
-
-     test('collections: detect', function() {
-     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
-     equals(result, 2, 'found the first "2" and broke the loop');
-     });
-
      test('collections: select', function() {
      var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
      equals(evens.join(', '), '2, 4, 6', 'selected each even number');
@@ -221,20 +222,6 @@ $(document).ready(function() {
      ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
      ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
      ok(_.every([true, true, true], _.identity), 'aliased as "every"');
-     });
-
-     test('collections: any', function() {
-     var nativeSome = Array.prototype.some;
-     Array.prototype.some = null;
-     ok(!_.any([]), 'the empty set');
-     ok(!_.any([false, false, false]), 'all false values');
-     ok(_.any([false, false, true]), 'one true value');
-     ok(_.any([null, 0, 'yes', false]), 'a string');
-     ok(!_.any([null, 0, '', false]), 'falsy values');
-     ok(!_.any([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
-     ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
-     ok(_.some([false, false, true]), 'aliased as "some"');
-     Array.prototype.some = nativeSome;
      });
 
      test('collections: include', function() {
