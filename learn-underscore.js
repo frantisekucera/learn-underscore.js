@@ -261,10 +261,12 @@
         
         if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
         
+        // Determines if at least one elements matches the truth test (any), where the test matches
+        // for === equality.
         found = any(obj, function(value) {
             return value === target;
         });
-        
+
         return found;
     };
 
