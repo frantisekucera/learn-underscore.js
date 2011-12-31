@@ -209,12 +209,12 @@ $(document).ready(function() {
         equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
     });
 
-    /*
-     test('collections: reject', function() {
-     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-     equals(odds.join(', '), '1, 3, 5', 'rejected each even number');
-     });
+    test('collections: reject', function() {
+        var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+        equals(odds.join(', '), '1, 3, 5', 'rejected each even number');
+    });
 
+    /*
      test('collections: all', function() {
      ok(_.all([], _.identity), 'the empty set');
      ok(_.all([true, true, true], _.identity), 'all true values');

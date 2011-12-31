@@ -221,15 +221,18 @@
         return results;
     };
 
-    // Return all the elements for which a truth test fails.
-    /*_.reject = function(obj, iterator, context) {
-     var results = [];
-     if (obj == null) return results;
-     each(obj, function(value, index, list) {
-     if (!iterator.call(context, value, index, list)) results[results.length] = value;
-     });
-     return results;
-     };*/
+    // Return all the elements for which a truth test fails. Reverse of select.
+    _.reject = function(obj, iterator, context) {
+        var results = [];
+        
+        if (obj == null) return results;
+
+        each(obj, function(value, index, list) {
+            if (!iterator.call(context, value, index, list)) results.push(value);
+        });
+
+        return results;
+    };
 
     // Determine whether all of the elements match a truth test.
     // Delegates to **ECMAScript 5**'s native `every` if available.
