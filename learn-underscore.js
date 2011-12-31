@@ -271,12 +271,22 @@
     };
 
     // Invoke a method (with arguments) on every item in a collection.
-    /*_.invoke = function(obj, method) {
-     var args = slice.call(arguments, 2);
-     return _.map(obj, function(value) {
-     return (method.call ? method || value : value[method]).apply(value, args);
-     });
-     };*/
+    _.invoke = function(obj, method) {
+        // arguments is an Object, not array, of arguments passed.
+        // So we use Array.prototype.slice that gives us a copy of a section of an Object(Array)
+        // as the Object does not have a slice method of its own.
+        // This gives us all the args beyond position 2.
+        var args = slice.call(arguments, 2);
+
+        // Apply the function on each element. Returning the results (map).
+        return _.map(obj, function(value) {
+            // Take the method and have it in a context of the value (this would be an array for ex.).
+            // Call the function with the value and pass in any extra arguments args.
+            // method.call is true when method is a function, false if it is a string.
+            // Do not know why (method || value) is needed.
+            return (method.call ? (method || value) : value[method]).apply(value, args);
+        });
+    };
 
     // Convenience version of a common use case of `map`: fetching a property.
     /*_.pluck = function(obj, key) {

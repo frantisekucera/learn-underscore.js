@@ -230,14 +230,18 @@ $(document).ready(function() {
         //ok(_([1,2,3]).include(2), 'OO-style include');
     });
 
-    /*
-     test('collections: invoke', function() {
-     var list = [[5, 1, 7], [3, 2, 1]];
-     var result = _.invoke(list, 'sort');
-     equals(result[0].join(', '), '1, 5, 7', 'first array sorted');
-     equals(result[1].join(', '), '1, 2, 3', 'second array sorted');
-     });
+    test('collections: invoke', function() {
+        var list = [[5, 1, 7], [3, 2, 1]];
+        var result = _.invoke(list, 'sort');
+        equals(result[0].join(', '), '1, 5, 7', 'first array sorted');
+        equals(result[1].join(', '), '1, 2, 3', 'second array sorted');
 
+        // An example where we pass a function instead of a function name.
+        var result = _.invoke([5, "hey", 7], function() { return this == "hey"; });
+        equals(result.join(', '), "false, true, false", 'function passed as an argument');
+    });
+
+    /*
      test('collections: invoke w/ function reference', function() {
      var list = [[5, 1, 7], [3, 2, 1]];
      var result = _.invoke(list, Array.prototype.sort);
