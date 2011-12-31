@@ -237,25 +237,34 @@
     // Determine whether all of the elements match a truth test.
     // Delegates to **ECMAScript 5**'s native `every` if available.
     // Aliased as `all`.
-    /*_.every = _.all = function(obj, iterator, context) {
-     var result = true;
-     if (obj == null) return result;
-     if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
-     each(obj, function(value, index, list) {
-     if (!(result = result && iterator.call(context, value, index, list))) return breaker;
-     });
-     return result;
-     };*/
+    _.every = _.all = function(obj, iterator, context) {
+        var result = true;
+        
+        if (obj == null) return result;
+        
+        if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
+        
+        // Much like any, but we expect result to be always true.
+        each(obj, function(value, index, list) {
+            if (!(result = result && iterator.call(context, value, index, list))) return breaker;
+        });
+
+        return result;
+    };
 
     // Determine if a given value is included in the array or object using `===`.
     // Aliased as `contains`.
     _.include = _.contains = function(obj, target) {
         var found = false;
+        
         if (obj == null) return found;
+        
         if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
+        
         found = any(obj, function(value) {
             return value === target;
         });
+        
         return found;
     };
 

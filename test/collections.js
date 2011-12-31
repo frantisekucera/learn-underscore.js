@@ -214,23 +214,23 @@ $(document).ready(function() {
         equals(odds.join(', '), '1, 3, 5', 'rejected each even number');
     });
 
+    test('collections: all', function() {
+        ok(_.all([], _.identity), 'the empty set');
+        ok(_.all([true, true, true], _.identity), 'all true values');
+        ok(!_.all([true, false, true], _.identity), 'one false value');
+        ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
+        ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
+        ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+    });
+
+    test('collections: include', function() {
+        ok(_.include([1,2,3], 2), 'two is in the array');
+        ok(!_.include([1,3,9], 2), 'two is not in the array');
+        ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
+        ok(_([1,2,3]).include(2), 'OO-style include');
+    });
+
     /*
-     test('collections: all', function() {
-     ok(_.all([], _.identity), 'the empty set');
-     ok(_.all([true, true, true], _.identity), 'all true values');
-     ok(!_.all([true, false, true], _.identity), 'one false value');
-     ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
-     ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
-     ok(_.every([true, true, true], _.identity), 'aliased as "every"');
-     });
-
-     test('collections: include', function() {
-     ok(_.include([1,2,3], 2), 'two is in the array');
-     ok(!_.include([1,3,9], 2), 'two is not in the array');
-     ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
-     ok(_([1,2,3]).include(2), 'OO-style include');
-     });
-
      test('collections: invoke', function() {
      var list = [[5, 1, 7], [3, 2, 1]];
      var result = _.invoke(list, 'sort');
