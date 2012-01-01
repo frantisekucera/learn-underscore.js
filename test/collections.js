@@ -246,27 +246,27 @@ $(document).ready(function() {
         equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
     });
 
+    test('collections: max', function() {
+        //equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
+
+        var neg = _.max([3, 1, 2], function(num){ return -num; });
+        equals(neg, 1, 'can perform a computation-based max');
+
+        equals(-Infinity, _.max({}), 'Maximum value of an empty object');
+        equals(-Infinity, _.max([]), 'Maximum value of an empty array');
+    });
+
+    test('collections: min', function() {
+        equals(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
+
+        var neg = _.min([1, 2, 3], function(num){ return -num; });
+        equals(neg, 3, 'can perform a computation-based min');
+
+        equals(Infinity, _.min({}), 'Minimum value of an empty object');
+        equals(Infinity, _.min([]), 'Minimum value of an empty array');
+    });
+
     /*
-     test('collections: max', function() {
-     equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
-
-     var neg = _.max([1, 2, 3], function(num){ return -num; });
-     equals(neg, 1, 'can perform a computation-based max');
-
-     equals(-Infinity, _.max({}), 'Maximum value of an empty object');
-     equals(-Infinity, _.max([]), 'Maximum value of an empty array');
-     });
-
-     test('collections: min', function() {
-     equals(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
-
-     var neg = _.min([1, 2, 3], function(num){ return -num; });
-     equals(neg, 3, 'can perform a computation-based min');
-
-     equals(Infinity, _.min({}), 'Minimum value of an empty object');
-     equals(Infinity, _.min([]), 'Minimum value of an empty array');
-     });
-
      test('collections: sortBy', function() {
      var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
      people = _.sortBy(people, function(person){ return person.age; });

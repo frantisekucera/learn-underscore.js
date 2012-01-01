@@ -294,28 +294,43 @@
     };
 
     // Return the maximum element or (element-based computation).
-    /*_.max = function(obj, iterator, context) {
-     if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);
-     if (!iterator && _.isEmpty(obj)) return -Infinity;
-     var result = {computed : -Infinity};
-     each(obj, function(value, index, list) {
-     var computed = iterator ? iterator.call(context, value, index, list) : value;
-     computed >= result.computed && (result = {value : value, computed : computed});
-     });
-     return result.value;
-     };*/
+    _.max = function(obj, iterator, context) {
+        // No special iterator passed.
+        if (!iterator) {
+            // On ordinary, arrays, use Math.max function.
+            if (_.isArray(obj)) return Math.max.apply(Math, obj);
+            // Global property corresponding to negative infinity.
+            if (_.isEmpty(obj)) return -Infinity;
+        }
 
-    // Return the minimum element (or element-based computation).
-    /*_.min = function(obj, iterator, context) {
-     if (!iterator && _.isArray(obj)) return Math.min.apply(Math, obj);
-     if (!iterator && _.isEmpty(obj)) return Infinity;
-     var result = {computed : Infinity};
-     each(obj, function(value, index, list) {
-     var computed = iterator ? iterator.call(context, value, index, list) : value;
-     computed < result.computed && (result = {value : value, computed : computed});
-     });
-     return result.value;
-     };*/
+        var result = {computed : -Infinity};
+        
+        each(obj, function(value, index, list) {
+            // How can the iterator evar eval to false if checked before?
+            var computed = iterator ? iterator.call(context, value, index, list) : value;
+            // LTR rule, if current value is >= than saved value, save it into the result
+            // if (computed >= result.computed) result = {value : value, computed : computed};
+            computed >= result.computed && (result = {value : value, computed : computed});
+        });
+        
+        // Return the original value passed into the iterator, not the computed one.
+        return result.value;
+    };
+
+    // Return the minimum element (or element-based computation). The same as _.max, just
+    // a different operator used.
+    _.min = function(obj, iterator, context) {
+        if (!iterator && _.isArray(obj)) return Math.min.apply(Math, obj);
+        if (!iterator && _.isEmpty(obj)) return Infinity;
+        var result = {computed : Infinity};
+        
+        each(obj, function(value, index, list) {
+            var computed = iterator ? iterator.call(context, value, index, list) : value;
+            computed < result.computed && (result = {value : value, computed : computed});
+        });
+
+        return result.value;
+    };
 
     // Shuffle an array.
     /*_.shuffle = function(obj) {
@@ -450,17 +465,17 @@
 
     // Is a given array, string, or object empty?
     // An "empty" object has no enumerable own-properties.
-    /*_.isEmpty = function(obj) {
-     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-     for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
-     return true;
-     };*/
+    _.isEmpty = function(obj) {
+        if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+        for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
+        return true;
+    };
 
     // Is a given value an array?
     // Delegates to ECMA5's native Array.isArray
-    /*_.isArray = nativeIsArray || function(obj) {
-     return toString.call(obj) == '[object Array]';
-     };*/
+    _.isArray = nativeIsArray || function(obj) {
+        return toString.call(obj) == '[object Array]';
+    };
 
     // Is a given variable an arguments object?
     /*_.isArguments = function(obj) {
@@ -478,9 +493,9 @@
      };*/
 
     // Is a given value a string?
-    /*_.isString = function(obj) {
-     return toString.call(obj) == '[object String]';
-     };*/
+    _.isString = function(obj) {
+        return toString.call(obj) == '[object String]';
+    };
 
     // Utility Functions
     // -----------------
