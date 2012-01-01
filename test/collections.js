@@ -266,6 +266,26 @@ $(document).ready(function() {
         equals(Infinity, _.min([]), 'Minimum value of an empty array');
     });
 
+    test('collections: range', function() {
+        // An array of 5 elements, beginning with a 0.
+        var numbers = _.range(5);
+        equals(numbers.join(','), "0,1,2,3,4", 'create a range of values ala Python');
+
+        // No arguments passed, an empty array returned.
+        equals(_.range().length, 0, "empty array");
+
+        // An array of 5 elements, beginning with a 0.
+        var numbers = _.range(2.32, 5.78);
+        equals(numbers.join(','), "2.32,3.32,4.32,5.32", 'we are not restricted by Int');
+    });
+
+    test('collections: shuffle', function() {
+        var numbers = _.range(10);
+        var shuffled = _.shuffle(numbers).sort();
+        notStrictEqual(numbers, shuffled, 'original object is unmodified');
+        equals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
+    });
+
     /*
      test('collections: sortBy', function() {
      var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
@@ -289,13 +309,6 @@ $(document).ready(function() {
      var numbers = [10, 20, 30, 40, 50], num = 35;
      var index = _.sortedIndex(numbers, num);
      equals(index, 3, '35 should be inserted at index 3');
-     });
-
-     test('collections: shuffle', function() {
-     var numbers = _.range(10);
-     var shuffled = _.shuffle(numbers).sort();
-     notStrictEqual(numbers, shuffled, 'original object is unmodified');
-     equals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
      });
 
      test('collections: toArray', function() {

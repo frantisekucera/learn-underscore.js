@@ -332,33 +332,68 @@
         return result.value;
     };
 
+    // Generate an integer Array containing an arithmetic progression. A port of
+    // the native Python `range()` function. See
+    // [the Python documentation](http://docs.python.org/library/functions.html#range).
+    _.range = function(start, stop, step) {
+        // No or only "stop" arguments.
+        if (arguments.length <= 1) {
+            stop = start || 0;
+            // Beginning with 0.
+            start = 0;
+        }
+        // Stepping by 1 or custom defined.
+        step = arguments[2] || 1;
+
+        // Use the Math library, so that we can use functions as if they were local.
+        with(Math) {
+            // Array length.
+            // Math.ceil rounds to the nearest Int upwards.
+            // Math.max returns the larger of two numbers.
+            var len = max(ceil((stop - start) / step), 0);
+        }
+        var idx = 0;
+        // Init the Array.
+        var range = new Array(len);
+
+        // Traverse the array
+        while(idx < len) {
+            // While increasing the index, save the starting value...
+            range[idx++] = start;
+            // ... and increase it with the step.
+            start += step;
+        }
+
+        return range;
+    };
+
     // Shuffle an array.
-    /*_.shuffle = function(obj) {
-     var shuffled = [], rand;
-     each(obj, function(value, index, list) {
-     if (index == 0) {
-     shuffled[0] = value;
-     } else {
-     rand = Math.floor(Math.random() * (index + 1));
-     shuffled[index] = shuffled[rand];
-     shuffled[rand] = value;
-     }
-     });
-     return shuffled;
-     };*/
+    _.shuffle = function(obj) {
+        var shuffled = [], rand;
+        each(obj, function(value, index, list) {
+            if (index == 0) {
+                shuffled[0] = value;
+            } else {
+                rand = Math.floor(Math.random() * (index + 1));
+                shuffled[index] = shuffled[rand];
+                shuffled[rand] = value;
+            }
+        });
+        return shuffled;
+    };
 
     // Sort the object's values by a criterion produced by an iterator.
     /*_.sortBy = function(obj, iterator, context) {
-     return _.pluck(_.map(obj, function(value, index, list) {
-     return {
-     value : value,
-     criteria : iterator.call(context, value, index, list)
-     };
-     }).sort(function(left, right) {
-     var a = left.criteria, b = right.criteria;
-     return a < b ? -1 : a > b ? 1 : 0;
-     }), 'value');
-     };*/
+        return _.pluck(_.map(obj, function(value, index, list) {
+            return {
+                value : value,
+                criteria : iterator.call(context, value, index, list)
+            };
+        }).sort(function(left, right) {
+            var a = left.criteria, b = right.criteria;
+            return a < b ? -1 : a > b ? 1 : 0;
+        }), 'value');
+    };*/
 
     // Groups the object's values by a criterion. Pass either a string attribute
     // to group by, or a function that returns the criterion.
@@ -396,28 +431,6 @@
     // Return the number of elements in an object.
     /*_.size = function(obj) {
      return _.toArray(obj).length;
-     };*/
-
-    // Generate an integer Array containing an arithmetic progression. A port of
-    // the native Python `range()` function. See
-    // [the Python documentation](http://docs.python.org/library/functions.html#range).
-    /*_.range = function(start, stop, step) {
-     if (arguments.length <= 1) {
-     stop = start || 0;
-     start = 0;
-     }
-     step = arguments[2] || 1;
-
-     var len = Math.max(Math.ceil((stop - start) / step), 0);
-     var idx = 0;
-     var range = new Array(len);
-
-     while(idx < len) {
-     range[idx++] = start;
-     start += step;
-     }
-
-     return range;
      };*/
 
     // Function (ahem) Functions
