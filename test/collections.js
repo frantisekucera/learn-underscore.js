@@ -241,19 +241,12 @@ $(document).ready(function() {
         equals(result.join(', '), "false, true, false", 'function passed as an argument');
     });
 
+    test('collections: pluck', function() {
+        var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+        equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    });
+
     /*
-     test('collections: invoke w/ function reference', function() {
-     var list = [[5, 1, 7], [3, 2, 1]];
-     var result = _.invoke(list, Array.prototype.sort);
-     equals(result[0].join(', '), '1, 5, 7', 'first array sorted');
-     equals(result[1].join(', '), '1, 2, 3', 'second array sorted');
-     });
-
-     test('collections: pluck', function() {
-     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
-     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
-     });
-
      test('collections: max', function() {
      equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
