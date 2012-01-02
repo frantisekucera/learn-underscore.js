@@ -390,17 +390,28 @@
     };
 
     // Sort the object's values by a criterion produced by an iterator.
-    /*_.sortBy = function(obj, iterator, context) {
-        return _.pluck(_.map(obj, function(value, index, list) {
-            return {
-                value : value,
-                criteria : iterator.call(context, value, index, list)
-            };
-        }).sort(function(left, right) {
-            var a = left.criteria, b = right.criteria;
-            return a < b ? -1 : a > b ? 1 : 0;
-        }), 'value');
-    };*/
+    _.sortBy = function(obj, iterator, context) {
+        // _.pluck fetching a property.
+        return _.pluck(
+            // Create a wrapper object with criteria around each element.
+            _.map(obj, function(value, index, list) {
+                return {
+                    value : value,
+                    // The iterator is the sort function.
+                    criteria : iterator.call(context, value, index, list)
+                };
+            // Supply a compare function to the sort.
+            }).sort(function(left, right) {
+                // Use the criteria values from our wrapper objects.
+                var a = left.criteria, b = right.criteria;
+                // If left < right then -1.
+                // If left > right then 1.
+                // If left == right then 0.
+                return a < b ? -1 : (a > b ? 1 : 0);
+            }),
+            // But return only the value attribute of the object.
+            'value');
+    };
 
     // Groups the object's values by a criterion. Pass either a string attribute
     // to group by, or a function that returns the criterion.

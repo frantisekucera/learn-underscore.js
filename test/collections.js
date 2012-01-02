@@ -292,13 +292,13 @@ $(document).ready(function() {
         equals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
     });
 
-    /*
-     test('collections: sortBy', function() {
-     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
-     people = _.sortBy(people, function(person){ return person.age; });
-     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
-     });
+    test('collections: sortBy', function() {
+        var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
+        people = _.sortBy(people, function(person){ return person.age; });
+        equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
+    });
 
+    /*
      test('collections: groupBy', function() {
      var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
      ok('0' in parity && '1' in parity, 'created a group for each value');
