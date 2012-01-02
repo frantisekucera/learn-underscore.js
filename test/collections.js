@@ -281,7 +281,13 @@ $(document).ready(function() {
 
     test('collections: shuffle', function() {
         var numbers = _.range(10);
-        var shuffled = _.shuffle(numbers).sort();
+        var shuffled = _.shuffle(numbers);
+        
+        _.each(shuffled, function(num) {
+            equals(numbers[num], num, 'in any order, the numbers match');
+        });
+
+        shuffled = shuffled.sort();
         notStrictEqual(numbers, shuffled, 'original object is unmodified');
         equals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
     });

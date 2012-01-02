@@ -370,15 +370,22 @@
     // Shuffle an array.
     _.shuffle = function(obj) {
         var shuffled = [], rand;
+
+        // console.log(shuffled.slice(0));
+
         each(obj, function(value, index, list) {
             if (index == 0) {
                 shuffled[0] = value;
             } else {
-                rand = Math.floor(Math.random() * (index + 1));
+                // Fisher–Yates shuffle
+                with(Math) {
+                    rand = floor(random() * (index + 1));
+                }
                 shuffled[index] = shuffled[rand];
                 shuffled[rand] = value;
             }
         });
+
         return shuffled;
     };
 
