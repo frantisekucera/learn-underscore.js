@@ -415,15 +415,27 @@
 
     // Groups the object's values by a criterion. Pass either a string attribute
     // to group by, or a function that returns the criterion.
-    /*_.groupBy = function(obj, val) {
-     var result = {};
-     var iterator = _.isFunction(val) ? val : function(obj) { return obj[val]; };
-     each(obj, function(value, index) {
-     var key = iterator(value, index);
-     (result[key] || (result[key] = [])).push(value);
-     });
-     return result;
-     };*/
+    _.groupBy = function(obj, val) {
+        var result = {};
+
+        // An addition where we use dot notation in a string to access inner objects.
+        var iterator = _.isFunction(val) ? val : function(obj) { return function() {
+            // Get deeper into the object.
+            each(val.split('.'), function(part, index) {
+                obj[part] && (obj = obj[part]);
+            });
+            return obj;
+        }()};
+
+        each(obj, function(value, index) {
+            // Key is the result to group by.
+            var key = iterator(value, index);
+            // Create a key in the result array if not present and push the result value to it.
+            (result[key] || (result[key] = [])).push(value);
+        });
+
+        return result;
+    };
 
     // Use a comparator function to figure out at what index an object should
     // be inserted so as to maintain order. Uses binary search.
@@ -519,9 +531,9 @@
      }*/
 
     // Is a given value a function?
-    /*_.isFunction = function(obj) {
-     return toString.call(obj) == '[object Function]';
-     };*/
+    _.isFunction = function(obj) {
+        return toString.call(obj) == '[object Function]';
+    };
 
     // Is a given value a string?
     _.isString = function(obj) {

@@ -298,19 +298,24 @@ $(document).ready(function() {
         equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
     });
 
+    test('collections: groupBy', function() {
+        var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
+        ok('0' in parity && '1' in parity, 'created a group for each value');
+        equals(parity[0].join(', '), '2, 4, 6', 'put each even number in the right group');
+
+        var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+        var grouped = _.groupBy(list, 'length');
+        equals(grouped['3'].join(' '), 'one two six ten');
+        equals(grouped['4'].join(' '), 'four five nine');
+        equals(grouped['5'].join(' '), 'three seven eight');
+
+        // A new addition that uses dot notation to access inner objects.
+        var objects = [{'o' : {'a' : 12}}, {'o' : {'a' : 5}}, {'o' : {'a' : 7}}];
+        var grouped = _.groupBy(objects, 'o.a');
+        ok('5' in grouped && '7' in grouped && '12' in grouped, 'inner objects through keys');
+    });
+
     /*
-     test('collections: groupBy', function() {
-     var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
-     ok('0' in parity && '1' in parity, 'created a group for each value');
-     equals(parity[0].join(', '), '2, 4, 6', 'put each even number in the right group');
-
-     var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
-     var grouped = _.groupBy(list, 'length');
-     equals(grouped['3'].join(' '), 'one two six ten');
-     equals(grouped['4'].join(' '), 'four five nine');
-     equals(grouped['5'].join(' '), 'three seven eight');
-     });
-
      test('collections: sortedIndex', function() {
      var numbers = [10, 20, 30, 40, 50], num = 35;
      var index = _.sortedIndex(numbers, num);
