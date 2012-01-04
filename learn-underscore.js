@@ -439,15 +439,26 @@
 
     // Use a comparator function to figure out at what index an object should
     // be inserted so as to maintain order. Uses binary search.
-    /*_.sortedIndex = function(array, obj, iterator) {
-     iterator || (iterator = _.identity);
-     var low = 0, high = array.length;
-     while (low < high) {
-     var mid = (low + high) >> 1;
-     iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
-     }
-     return low;
-     };*/
+    _.sortedIndex = function(array, obj, iterator) {
+        iterator || (iterator = _.identity);
+
+        // Get the left and right index of the array.
+        var low = 0, high = array.length;
+
+        // While low is still lower than high
+        while (low < high) {
+            // Determine the equidistant between the left and right.
+            // Make a binary shift to the right, which is a neat way of getting a rounded
+            // half of the total.
+            // var mid = Math.floor((low + high) / 2);
+            var mid = (low + high) >> 1;
+            // If the searched for value is still smaller than the equidistant, we ditch the
+            // left branch, otherwise we ditch the right branch.
+            iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+        }
+
+        return low;
+    };
 
     // Safely convert anything iterable into a real, live array.
     /*_.toArray = function(iterable) {

@@ -315,13 +315,13 @@ $(document).ready(function() {
         ok('5' in grouped && '7' in grouped && '12' in grouped, 'inner objects through keys');
     });
 
-    /*
-     test('collections: sortedIndex', function() {
-     var numbers = [10, 20, 30, 40, 50], num = 35;
-     var index = _.sortedIndex(numbers, num);
-     equals(index, 3, '35 should be inserted at index 3');
-     });
+    test('collections: sortedIndex', function() {
+        var numbers = [10, 20, 30, 40, 50], num = 35;
+        var index = _.sortedIndex(numbers, num);
+        equals(index, 3, '35 should be inserted at index 3');
+    });
 
+    /*
      test('collections: toArray', function() {
      ok(!_.isArray(arguments), 'arguments object is not an array');
      ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
