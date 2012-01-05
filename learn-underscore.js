@@ -461,13 +461,16 @@
     };
 
     // Safely convert anything iterable into a real, live array.
-    /*_.toArray = function(iterable) {
-     if (!iterable)                return [];
-     if (iterable.toArray)         return iterable.toArray();
-     if (_.isArray(iterable))      return slice.call(iterable);
-     if (_.isArguments(iterable))  return slice.call(iterable);
-     return _.values(iterable);
-     };*/
+    _.toArray = function(iterable) {
+        if (!iterable)                return [];
+        if (iterable.toArray)         return iterable.toArray();
+        // Array.prototype.slice or [].slice, a deep copy
+        if (_.isArray(iterable))      return slice.call(iterable);
+        if (_.isArguments(iterable))  return slice.call(iterable);
+        
+        // On any other object, give is the values.
+        return _.values(iterable);
+    };
 
     // Return the number of elements in an object.
     /*_.size = function(obj) {
@@ -503,19 +506,20 @@
     // ----------------
 
     // Retrieve the values of an object's properties.
-    /*_.values = function(obj) {
-     return _.map(obj, _.identity);
-     };*/
+    _.values = function(obj) {
+        // _.identity returns the value.
+        return _.map(obj, _.identity);
+    };
 
     // Return a sorted list of the function names available on the object.
     // Aliased as `methods`
-    /*_.functions = _.methods = function(obj) {
-     var names = [];
-     for (var key in obj) {
-     if (_.isFunction(obj[key])) names.push(key);
-     }
-     return names.sort();
-     };*/
+    _.functions = _.methods = function(obj) {
+        var names = [];
+        for (var key in obj) {
+            if (_.isFunction(obj[key])) names.push(key);
+        }
+        return names.sort();
+    };
 
     // Is a given array, string, or object empty?
     // An "empty" object has no enumerable own-properties.
@@ -526,20 +530,22 @@
     };
 
     // Is a given value an array?
-    // Delegates to ECMA5's native Array.isArray
+    // Delegates to ECMA5's native Array.isArray (IE9, FF4 etc.)
     _.isArray = nativeIsArray || function(obj) {
+        // Object.prototype.toString returns the value of internal Class property.
         return toString.call(obj) == '[object Array]';
     };
 
     // Is a given variable an arguments object?
-    /*_.isArguments = function(obj) {
-     return toString.call(obj) == '[object Arguments]';
-     };
-     if (!_.isArguments(arguments)) {
-     _.isArguments = function(obj) {
-     return !!(obj && hasOwnProperty.call(obj, 'callee'));
-     };
-     }*/
+    _.isArguments = function(obj) {
+        return toString.call(obj) == '[object Arguments]';
+    };
+    
+    if (!_.isArguments(arguments)) {
+        _.isArguments = function(obj) {
+            return !!(obj && hasOwnProperty.call(obj, 'callee'));
+        };
+    }
 
     // Is a given value a function?
     _.isFunction = function(obj) {
