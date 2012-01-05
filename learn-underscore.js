@@ -473,9 +473,10 @@
     };
 
     // Return the number of elements in an object.
-    /*_.size = function(obj) {
-     return _.toArray(obj).length;
-     };*/
+    _.size = function(obj) {
+        // First safely turn to an array, then use its length property.
+        return _.toArray(obj).length;
+    };
 
     // Function (ahem) Functions
     // ------------------

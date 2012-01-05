@@ -335,10 +335,8 @@ $(document).ready(function() {
         equals(numbers.join(', '), '1, 2, 3', 'object flattened into array');
     });
 
-    /*
-     test('collections: size', function() {
-     equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
-     });
-     */
+    test('collections: size', function() {
+        equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+    });
 
 });
