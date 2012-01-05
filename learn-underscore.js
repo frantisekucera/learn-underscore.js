@@ -516,7 +516,9 @@
     // Aliased as `methods`
     _.functions = _.methods = function(obj) {
         var names = [];
+        // Let us enumerate the keys.
         for (var key in obj) {
+            // _.isFunction will make use of toString to get inner Class property.
             if (_.isFunction(obj[key])) names.push(key);
         }
         return names.sort();

@@ -339,4 +339,9 @@ $(document).ready(function() {
         equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
     });
 
+    test('collection: functions', function() {
+        var obj = {'one': 1, 'two': function(x) {return x;}, 'three': {'four': 'four'}};
+        equals(_.functions(obj).join(), 'two', 'can get functions off of objects');
+    });
+
 });
