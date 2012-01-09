@@ -184,8 +184,23 @@ var _ = function() {
 			}
 		},
 
-		min: function() {
-			
+		// Return the item in a list with the minimum value!
+		min: function(list, iterator, context) {
+			if (arguments.length > 1) {
+				// Have a wrapper object so we can save the min value and item.
+				var min = {'value': +Infinity, 'item': null};
+				this.each(list, function(item, index, list) {
+					var result = iterator.call(context, item, index, list);
+					if (result < min.value) min = {'value': result, 'item': item};
+				});
+				return min.item;
+			} else {
+				if (this.isArray(list)) {
+					return Math.min.apply(Math, list);
+				} else {
+					return +Infinity;
+				}
+			}
 		},
 
 		identity: function(value) {
