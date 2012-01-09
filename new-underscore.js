@@ -130,7 +130,7 @@ var _ = function() {
 		include: function(list, value) {
 			var result = false;
 			// One needs to check if indexOf exists on the list/object.
-			if (list.indexOf == 'function') {
+			if (list.indexOf) {
 				// Forgot to check that indexOf returns -1 when item is not found.
 				result = list.indexOf(value) != -1;
 			} else {
@@ -139,6 +139,19 @@ var _ = function() {
 				});
 			}
 			return result;
+		},
+
+		// Calls the method named by methodName on each value in the list. Any extra arguments passed
+		//  to invoke will be forwarded on to the method invocation.
+		invoke: function(list, methodName, arguments) {
+			// Give us anything beyond methodName.
+			var args = [].slice.call(arguments, 2);
+			// Remember to use _.map as we want to save the result.
+			return this.map(list, function(item, index, list) {
+				// methodName.call returns true if method is a function, otherwise call a method on the
+				//  item. Then pass the item with any extra args into the actual methodName call.
+				return (methodName.call ? methodName : item[methodName]).apply(item, args);
+			});
 		},
 
 		identity: function(value) {
