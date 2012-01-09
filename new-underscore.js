@@ -88,6 +88,18 @@ var _ = function() {
 			return result;
 		},
 
+		// Looks through each value in the list, returning an array of all the values that pass a truth test
+		//  (iterator).
+		select: function(list, iterator, context) {
+			var result = [];
+			this.any(list, function(item, index, list) {
+				if (iterator.call(context, item, index, list)) {
+					result.push(item);
+				}
+			});
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	}

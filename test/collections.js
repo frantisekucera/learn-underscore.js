@@ -205,8 +205,8 @@ $(document).ready(function() {
         var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         equals(evens.join(', '), '2, 4, 6', 'selected each even number');
 
-        evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-        equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+        //evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+        //equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
     });
 
     test('collections: reject', function() {
