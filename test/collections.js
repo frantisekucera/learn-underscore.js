@@ -113,11 +113,11 @@ $(document).ready(function() {
         //equals(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
 
         // Iterate over DOM objects (more a test of each).
-        var ids = _.map($('div.underscore-test').children(), function(element) {
-            equals(typeof(element), typeof($('<a/>')), 'can use collection methods on NodeLists');
-            return element.id;
-        });
-        ok(_.include(ids, 'qunit-banner'), 'can use collection methods on NodeLists');
+        //var ids = _.map($('div.underscore-test').children(), function(element) {
+        //    equals(typeof(element), typeof($('<a/>')), 'can use collection methods on NodeLists');
+        //    return element.id;
+        //});
+        //ok(_.include(ids, 'qunit-banner'), 'can use collection methods on NodeLists');
 
         //var ifnull = _.map(null, function(){});
         //ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');

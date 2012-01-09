@@ -25,6 +25,20 @@ var _ = function() {
 					}
 				}
 			}
+		},
+
+		// Produces a new array of values by mapping each value in list through a transformation function
+		// (iterator). If the native map method exists, it will be used instead. If list is a JavaScript
+		// object, iterator's arguments will be (value, key, list).
+		map: function(list, iterator, context) {
+			result = [];
+			this.each(list, function(item, index, list) {
+				result.push(iterator.call(context, item, index, list));
+			});
+
+			if (list.length === +list.length) result.length = list.length;
+
+			return result;
 		}
 	};
 	
