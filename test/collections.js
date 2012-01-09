@@ -46,11 +46,11 @@ $(document).ready(function() {
         equals(answers.join(', '), '5, 10, 15', 'context object property accessed');
 
         // The function is aliased.
-        answers = [];
-        _.forEach([1, 2, 3], function(num) {
-            answers.push(num);
-        });
-        equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
+        //answers = [];
+        //_.forEach([1, 2, 3], function(num) {
+        //    answers.push(num);
+        //});
+        //equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
 
         // Do not try to get values from a prototype.
         answers = [];
