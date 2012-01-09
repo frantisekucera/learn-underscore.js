@@ -74,6 +74,20 @@ var _ = function() {
 			return result;
 		},
 
+		// Looks through each value in the list, returning the first one that passes a truth test (iterator).
+		//  The function returns as soon as it finds an acceptable element, and doesn't traverse the entire list.
+		find: function(list, iterator, context) {
+			var result;
+			this.any(list, function(item, index, list) {
+				if (iterator.call(context, item, index, list)) {
+					// Forgot to save the item and return true for any to quit.
+					result = item;
+					return true;
+				}
+			});
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	}
