@@ -9,7 +9,7 @@ var _ = function() {
 			// If not null.
 			if (list != null) {
 				// Split string.
-				if (typeof(list) == 'string') list = list.split();
+				if (this.isString(list)) list = list.split();
 
 				if (list.length === +list.length) {
 					// On array iterate.
@@ -162,8 +162,44 @@ var _ = function() {
 			});
 		},
 
+		// Returns the maximum value in list. If iterator is passed, it will be used on each value to
+		//  generate the criterion by which the value is ranked.
+		//  Actually, it should return the item in a list with the maximum value!
+		max: function(list, iterator, context) {
+			if (arguments.length > 1) {
+				// Have a wrapper object so we can save the max value and item.
+				var max = {'value': -Infinity, 'item': null};
+				this.each(list, function(item, index, list) {
+					var result = iterator.call(context, item, index, list);
+					if (result > max.value) max = {'value': result, 'item': item};
+				});
+				return max.item;
+			} else {
+				// Forgot to call isArray and apply Math.max.
+				if (this.isArray(list)) {
+					return Math.max.apply(Math, list);
+				} else {
+					return -Infinity;
+				}
+			}
+		},
+
+		min: function() {
+			
+		},
+
 		identity: function(value) {
         	return value;
+    	},
+
+    	isArray: function(obj) {
+        	// Object.prototype.toString returns the value of internal Class property.
+        	return toString.call(obj) == '[object Array]';
+    	},
+
+    	isString: function(obj) {
+        	// Object.prototype.toString returns the value of internal Class property.
+        	return toString.call(obj) == '[object String]';
     	}
 	};
 	

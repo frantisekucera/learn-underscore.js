@@ -247,7 +247,7 @@ $(document).ready(function() {
     });
 
     test('collections: max', function() {
-        //equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
+        equals(3, _.max([1, 3, 2]), 'can perform a regular Math.max');
 
         var neg = _.max([3, 1, 2], function(num){ return -num; });
         equals(neg, 1, 'can perform a computation-based max');
