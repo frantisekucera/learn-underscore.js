@@ -191,7 +191,7 @@ $(document).ready(function() {
         // Find one even number. 
         ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
         
-        ok(_.some([false, false, true]), 'aliased as "some"');
+        //ok(_.some([false, false, true]), 'aliased as "some"');
         
         Array.prototype.some = nativeSome;
     });

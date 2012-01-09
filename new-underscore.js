@@ -59,7 +59,24 @@ var _ = function() {
 			// Throw TypeError if memo was still not computed.
 			if (!hasMemo) throw new TypeError('!');
 			return memo;
-		}
+		},
+
+		// Returns true if any of the values in the list pass the iterator truth test. Short-circuits and
+		//  stops traversing the list if a true element is found.
+		any: function(list, iterator, context) {
+			// Forgot the identity function. It is used to check if values return true.
+			iterator || (iterator = _.identity);
+			var result = false;
+			this.each(list, function(item, index, list) {
+				// Also forgot to wrap the right side of ||.
+				if (result || (result = iterator.call(context, item, index, list))) return result;
+			});
+			return result;
+		},
+
+		identity: function(value) {
+        	return value;
+    	}
 	};
 	
 }();
