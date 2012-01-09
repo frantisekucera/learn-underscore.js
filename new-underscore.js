@@ -112,6 +112,19 @@ var _ = function() {
 			return result;
 		},
 
+		// Returns true if all of the values in the list pass the iterator truth test.
+		all: function(list, iterator, context) {
+			result = true;
+			this.any(list, function(item, index, list) {
+				if (!iterator.call(context, item, index, list)) {
+					// Early exit.
+					result = false;
+					return true;
+				}
+			});
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	}

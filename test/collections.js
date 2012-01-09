@@ -220,7 +220,7 @@ $(document).ready(function() {
         ok(!_.all([true, false, true], _.identity), 'one false value');
         ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
         ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
-        ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+        //ok(_.every([true, true, true], _.identity), 'aliased as "every"');
     });
 
     test('collections: include', function() {
