@@ -100,6 +100,18 @@ var _ = function() {
 			return result;
 		},
 
+		// Returns the values in list without the elements that the truth test (iterator) passes. The opposite
+		//  of select.
+		reject: function(list, iterator, context) {
+			var result = [];
+			this.any(list, function(item, index, list) {
+				if (!iterator.call(context, item, index, list)) {
+					result.push(item);
+				}
+			});
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	}
