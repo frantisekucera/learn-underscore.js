@@ -140,8 +140,8 @@ $(document).ready(function() {
         //equals(sum, 18, 'can reduce with a context object');
 
         // Alias the function and pass in the initial value for memo.
-        sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-        equals(sum, 6, 'aliased as "inject"');
+        sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 3);
+        equals(sum, 9, 'pass initial value for memo');
 
         // Get an error if we do not have an initial value for memo and we cannot get it from the
         // first element in the object.

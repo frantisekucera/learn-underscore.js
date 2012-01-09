@@ -39,6 +39,26 @@ var _ = function() {
 			if (list.length === +list.length) result.length = list.length;
 
 			return result;
+		},
+
+		// Boils down a list of values into a single value. Memo is the initial state of the reduction,
+		//  and each successive step of it should be returned by iterator.
+		reduce: function(list, iterator, memo, context) {
+			// Forgot to check if memo is set first.
+			var hasMemo = arguments.length > 2;
+			this.each(list, function(item, index, list) {
+				// Then we set memo with the first value!
+				if (!hasMemo) {
+					memo = item;
+					hasMemo--;
+				} else {
+					// Pass in memo as a value.
+					memo = iterator.call(context, memo, item, index, list);
+				}
+			});
+			// Throw TypeError if memo was still not computed.
+			if (!hasMemo) throw new TypeError('!');
+			return memo;
 		}
 	};
 	
