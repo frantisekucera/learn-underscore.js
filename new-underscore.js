@@ -154,6 +154,14 @@ var _ = function() {
 			});
 		},
 
+		// A convenient version of what is perhaps the most common use-case for map: extracting a list
+		//  of property values.
+		pluck: function(list, propertyName) {
+			return this.map(list, function(item, index, list) {
+				return item[propertyName];
+			});
+		},
+
 		identity: function(value) {
         	return value;
     	}
