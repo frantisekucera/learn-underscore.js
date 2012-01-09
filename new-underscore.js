@@ -125,6 +125,22 @@ var _ = function() {
 			return result;
 		},
 
+		// Returns true if the value is present in the list, using === to test equality. Uses indexOf
+		// internally, if list is an Array.
+		include: function(list, value) {
+			var result = false;
+			// One needs to check if indexOf exists on the list/object.
+			if (list.indexOf == 'function') {
+				// Forgot to check that indexOf returns -1 when item is not found.
+				result = list.indexOf(value) != -1;
+			} else {
+				result = this.any(list, function(item) {
+					return (item === value);
+				});
+			}
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	}
