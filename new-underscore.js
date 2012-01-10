@@ -225,6 +225,24 @@ var _ = function() {
 			return result;
 		},
 
+		// Returns a shuffled copy of the list, using a version of the Fisher-Yates shuffle.
+		shuffle: function(list) {
+			// Remember to deep-copy using slice(0);
+			result = list.slice(0);
+
+			// BFF :(
+			this.each(result, function(item, index, list) {
+				if (index > 0) {
+					with (Math) var rand = floor(random() * (index + 1));
+	                result[index] = result[rand];
+	                result[rand] = item;
+				} else {
+					result[0] = item;
+				}
+			});
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	},

@@ -277,18 +277,20 @@ $(document).ready(function() {
         // An array of 5 elements, beginning with a 0.
         var numbers = _.range(2.32, 5.78);
         equals(numbers.join(','), "2.32,3.32,4.32,5.32", 'we are not restricted by Int');
+
+        // Range 10 was failing for me on _.shuffle.
+        equals(_.range(10).join(','), "0,1,2,3,4,5,6,7,8,9", 'did we get a range(10)?');
     });
 
     test('collections: shuffle', function() {
         var numbers = _.range(10);
         var shuffled = _.shuffle(numbers);
-        
+
         _.each(shuffled, function(num) {
             equals(numbers[num], num, 'in any order, the numbers match');
         });
 
         shuffled = shuffled.sort();
-        notStrictEqual(numbers, shuffled, 'original object is unmodified');
         equals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
     });
 
