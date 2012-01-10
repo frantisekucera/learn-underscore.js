@@ -203,6 +203,28 @@ var _ = function() {
 			}
 		},
 
+		// A function to create flexibly-numbered lists of integers, handy for each and map loops. start,
+		//  if omitted, defaults to 0; step defaults to 1. Returns a list of integers from start to stop,
+		//  incremented (or decremented) by step, exclusive.
+		range: function(start, stop, step) {
+			// Start and step are optional params.
+			switch(arguments.length) {
+				case 1:
+					stop = start;
+					start = 0;
+					step = 1;
+					break;
+				case 2:
+					step = 1;
+					break;
+			}
+			result = [];
+			for (var i=start; i<stop; i+=step) {
+				result.push(i);
+			}
+			return result;
+		},
+
 		identity: function(value) {
         	return value;
     	},
